@@ -1,0 +1,203 @@
+.MODEL SMALL
+.STACK 100H
+.DATA
+MSG DB 0AH,0DH," ENTER YOUR BIRTHDAY MONTH# FROM (1-12) = $"
+MSG2 DB 0AH,0DH," YOUR BIRTHDAY MONTH IS = $"
+JAN DB "JANUARY.$ "  
+FEB DB "FEBRUARY.$ "
+MAR DB "MARCH.$ "  
+APR DB "APRIL.$ "
+MA DB "MAY.$ " 
+JUN DB "JUNE.$ "    
+JUL DB "JULY.$ "     
+AUG DB "AUGUST.$ "
+SEP DB "SEPTEMBER.$ "      
+OCT DB "OCTOBER.$ "
+NOV DB "NOVEMBER.$ " 
+DECE DB "DECEMBER.$ " 
+INPUT DB 4,?,4 DUP('$') 
+
+.CODE 
+MAIN PROC
+    MOV AX,@DATA
+    MOV DS,AX
+    
+    LEA DX,MSG
+    MOV AH,9           
+    INT 21H             
+    
+    MOV AH,0AH
+    MOV DX,OFFSET INPUT
+    INT 21H
+    
+    MOV DI,OFFSET INPUT
+    INC DI
+    INC DI
+    
+    MOV BH,[DI]  
+    AND BH,0FH
+    
+    INC DI 
+    MOV AL,[DI]
+    AND AL,0FH
+    
+    CMP BH,0
+    JE COMPARE0 
+    
+    CMP BH,1
+    JE COMPARE1   
+  
+; FOR FIRST DIGIT 0    
+COMPARE0:
+    CMP AL,1
+    JE JANUARY 
+    CMP AL,2
+    JE FEBRUARY 
+    CMP AL,3
+    JE MARCH          
+    CMP AL,4
+    JE APRIL
+    CMP AL,5
+    JE MAY   
+    CMP AL,6
+    JE JUNE
+    CMP AL,7
+    JE JULY
+    CMP AL,8
+    JE AUGUST    
+    CMP AL,9
+    JE SEPTEMBER   
+    
+JANUARY:
+    LEA DX,MSG2
+    MOV AH,9   
+    INT 21H
+        
+   MOV AH,9
+   MOV DL,OFFSET JAN  
+   INT 21H 
+   JMP EXIT     
+   
+FEBRUARY:   
+    LEA DX,MSG2
+    MOV AH,9   
+    INT 21H
+       
+   MOV AH,9
+   MOV DL,OFFSET FEB  
+   INT 21H 
+   JMP EXIT     
+ 
+MARCH:   
+    LEA DX,MSG2
+    MOV AH,9   
+    INT 21H
+        
+   MOV AH,9
+   MOV DL,OFFSET MAR  
+   INT 21H 
+   JMP EXIT                
+   
+APRIL:
+    LEA DX,MSG2
+    MOV AH,9   
+    INT 21H
+       
+   MOV AH,9
+   MOV DL,OFFSET APR  
+   INT 21H 
+   JMP EXIT 
+   
+MAY:  
+    LEA DX,MSG2
+    MOV AH,9   
+    INT 21H
+       
+   MOV AH,9
+   MOV DL,OFFSET MA  
+   INT 21H 
+   JMP EXIT
+   
+JUNE:
+    LEA DX,MSG2
+    MOV AH,9   
+    INT 21H
+  
+   MOV AH,9
+   MOV DL,OFFSET JUN  
+   INT 21H 
+   JMP EXIT 
+
+JULY:
+    LEA DX,MSG2
+    MOV AH,9   
+    INT 21H
+  
+   MOV AH,9
+   MOV DL,OFFSET JUL  
+   INT 21H 
+   JMP EXIT 
+
+AUGUST:
+    LEA DX,MSG2
+    MOV AH,9   
+    INT 21H
+  
+   MOV AH,9
+   MOV DL,OFFSET AUG  
+   INT 21H 
+   JMP EXIT 
+
+SEPTEMBER:
+    LEA DX,MSG2
+    MOV AH,9   
+    INT 21H
+  
+   MOV AH,9
+   MOV DL,OFFSET SEP  
+   INT 21H 
+   JMP EXIT
+      
+; FOR FIRST DIGIT 1    
+COMPARE1:  
+    CMP AL,0
+    JE OCTOBER
+    CMP AL,1
+    JE NOVEMBER
+    CMP AL,2
+    JE DECEMBER
+
+OCTOBER:
+    LEA DX,MSG2
+    MOV AH,9   
+    INT 21H
+  
+   MOV AH,9
+   MOV DL,OFFSET OCT  
+   INT 21H 
+   JMP EXIT
+   
+NOVEMBER:
+    LEA DX,MSG2
+    MOV AH,9   
+    INT 21H
+  
+   MOV AH,9
+   MOV DL,OFFSET NOV  
+   INT 21H 
+   JMP EXIT
+
+DECEMBER:
+    LEA DX,MSG2
+    MOV AH,9   
+    INT 21H
+  
+   MOV AH,9
+   MOV DL,OFFSET DECE  
+   INT 21H 
+   JMP EXIT   
+EXIT:
+    MOV AH,4CH
+    INT 21H
+    MAIN ENDP
+END MAIN
